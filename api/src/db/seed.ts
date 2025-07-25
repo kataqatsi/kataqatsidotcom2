@@ -8,6 +8,7 @@ export async function seed() {
     name: 'John',
     age: 30,
     email: 'john@example.com',
+    password: 'password',
   };
 
   await DbProvider.useFactory()
