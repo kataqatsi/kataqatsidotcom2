@@ -1,4 +1,3 @@
-// import { goto } from "../lib/helpers/Navigation";
 import { getNewTokens } from "../helpers/Auth";
 
 export async function backendApi<TRequestBody, TResponse>(method: string = 'POST', endpoint: string, requiresAuth?: boolean, requestBody?: TRequestBody): Promise<TResponse | undefined> {
@@ -33,7 +32,7 @@ export async function backendApi<TRequestBody, TResponse>(method: string = 'POST
             if (!successfulRefresh) {
                 // redirect to login
                 console.log("refresh failed")
-                // goto('/login')
+                window.location.href = '/login'
                 return
             }
             accessToken = localStorage.getItem('accessToken');

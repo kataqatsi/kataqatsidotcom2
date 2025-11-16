@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { useThemeDetection } from "@/hooks/use-theme-detection"
-import logoWhite from "@/assets/images/kigri-white.svg"
-import logoBlack from "@/assets/images/kigri-black.svg"
+import logoWhite from "@/assets/images/sinewax-white.svg"
+import logoBlack from "@/assets/images/sinewax-black.svg"
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void
@@ -37,7 +37,7 @@ export function LoadingScreen({ onLoadingComplete, delay = 2000 }: LoadingScreen
       <div className="flex items-center">
         <img 
           src={logo} 
-          alt="Kigri" 
+          alt="Sinewax" 
           className="h-20 animate-pulse transition-transform duration-300 hover:scale-110" 
         />
       </div>

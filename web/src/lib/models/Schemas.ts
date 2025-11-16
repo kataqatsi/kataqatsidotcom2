@@ -4,14 +4,32 @@
  */
 
 export interface paths {
-    "/profile": {
+    "/auth/login": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AppController_getProfile"];
+        get?: never;
+        put?: never;
+        /** Login */
+        post: operations["login_auth_login_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Refresh */
+        get: operations["refresh_auth_refresh_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -20,96 +38,85 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/user": {
+    "/user/one": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["UserController_findAll"];
+        get?: never;
         put?: never;
-        post: operations["UserController_create"];
+        /** Get User Endpoint */
+        post: operations["get_user_endpoint_user_one_post"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/user/{id}": {
+    "/user/private": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["UserController_findOne"];
+        get?: never;
+        put?: never;
+        /** Get User Private */
+        post: operations["get_user_private_user_private_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/user/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Me */
+        get: operations["get_me_user_me_get"];
         put?: never;
         post?: never;
-        delete: operations["UserController_remove"];
-        options?: never;
-        head?: never;
-        patch: operations["UserController_update"];
-        trace?: never;
-    };
-    "/auth/auth/refresh": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["AuthController_refresh"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/auth/auth/logout": {
+    "/robots.txt": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Robots */
+        get: operations["robots_robots_txt_get"];
         put?: never;
-        post: operations["AuthController_logout"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/auth/auth/login/password": {
+    "/": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Read Root */
+        get: operations["read_root__get"];
         put?: never;
-        post: operations["AuthController_login"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/auth/register/password": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["AuthController_register"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -120,81 +127,93 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        CreateUserRequestDto: {
-            name: string;
+        /** BaseErrorResponse */
+        BaseErrorResponse: {
+            /** Msg */
+            msg: string;
+            code?: components["schemas"]["ErrorCodeEnum"] | null;
+            /** Data */
+            data?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /**
+         * ErrorCodeEnum
+         * @enum {string}
+         */
+        ErrorCodeEnum: "item_not_found";
+        /** GetUserRequest */
+        GetUserRequest: {
+            /**
+             * Userid
+             * Format: uuid
+             */
+            userId: string;
+        };
+        /** GetUserResponse */
+        GetUserResponse: {
+            /** Success */
+            success: boolean;
+            error?: components["schemas"]["BaseErrorResponse"] | null;
+            user?: components["schemas"]["User"] | null;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /** LoginRequest */
+        LoginRequest: {
+            /** Email */
             email: string;
-            age: number;
+            /** Password */
             password: string;
         };
-        ErrorInfoDto: {
-            /** @description Error message */
-            message: string;
-            /** @description Error code */
-            code?: string;
+        /** LoginResponse */
+        LoginResponse: {
+            /** Success */
+            success: boolean;
+            error?: components["schemas"]["BaseErrorResponse"] | null;
+            /** Accesstoken */
+            accessToken?: string | null;
+            /** Refreshtoken */
+            refreshToken?: string | null;
         };
-        UserDataDto: {
+        /** RefreshResponse */
+        RefreshResponse: {
+            /** Success */
+            success: boolean;
+            error?: components["schemas"]["BaseErrorResponse"] | null;
+            /** Accesstoken */
+            accessToken?: string | null;
+            /** Refreshtoken */
+            refreshToken?: string | null;
+        };
+        /** User */
+        User: {
+            /**
+             * Id
+             * Format: uuid
+             */
             id: string;
-            name: string;
+            /** Email */
             email: string;
-            age: number;
+            /**
+             * Createdat
+             * Format: date-time
+             */
+            createdAt: string;
+            /** Updatedat */
+            updatedAt?: string | null;
         };
-        UserResponseDto: {
-            /** @description Success status */
-            success: boolean;
-            /** @description Error information */
-            error?: components["schemas"]["ErrorInfoDto"];
-            /** @description Response data */
-            data?: components["schemas"]["UserDataDto"];
-        };
-        UsersResponseDto: {
-            /** @description Success status */
-            success: boolean;
-            /** @description Error information */
-            error?: components["schemas"]["ErrorInfoDto"];
-            /** @description Response data */
-            data?: components["schemas"]["UserDataDto"][];
-        };
-        Nested3Dto: {
-            field1: string;
-            field2?: number;
-            field3: string[];
-        };
-        Nested2Dto: {
-            field?: string;
-            field2: number;
-            field3: string;
-            nested3?: components["schemas"]["Nested3Dto"];
-        };
-        Nested1Dto: {
-            field1: string;
-            field2?: number;
-            nested2: components["schemas"]["Nested2Dto"];
-        };
-        UpdateUserRequestDto: {
-            nested: components["schemas"]["Nested1Dto"];
-            name?: string;
-            email?: string;
-            age?: number;
-        };
-        SuccessErrorResponseDto: {
-            /** @description Success status */
-            success: boolean;
-            /** @description Error information */
-            error?: components["schemas"]["ErrorInfoDto"];
-            /** @description Response data */
-            data?: Record<string, never>;
-        };
-        JwtTokensDto: {
-            accessToken: string;
-            refreshToken: string;
-        };
-        JwtTokensResponseDto: {
-            /** @description Success status */
-            success: boolean;
-            /** @description Error information */
-            error?: components["schemas"]["ErrorInfoDto"];
-            /** @description Response data */
-            data?: components["schemas"]["JwtTokensDto"];
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
         };
     };
     responses: never;
@@ -205,54 +224,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    AppController_getProfile: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": string;
-                };
-            };
-        };
-    };
-    UserController_findAll: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Users fetched successfully */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UsersResponseDto"];
-                };
-            };
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-        };
-    };
-    UserController_create: {
+    login_auth_login_post: {
         parameters: {
             query?: never;
             header?: never;
@@ -261,169 +233,117 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["CreateUserRequestDto"];
+                "application/json": components["schemas"]["LoginRequest"];
             };
         };
         responses: {
-            /** @description User created successfully */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
-                };
-            };
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, never>;
-                };
-            };
-        };
-    };
-    UserController_findOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description User fetched successfully */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
+                    "application/json": components["schemas"]["LoginResponse"];
                 };
             };
-            default: {
+            /** @description Validation Error */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
     };
-    UserController_remove: {
+    refresh_auth_refresh_get: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description User deleted successfully */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SuccessErrorResponseDto"];
-                };
-            };
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["RefreshResponse"];
                 };
             };
         };
     };
-    UserController_update: {
+    get_user_endpoint_user_one_post: {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                id: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["UpdateUserRequestDto"];
+                "application/json": components["schemas"]["GetUserRequest"];
             };
         };
         responses: {
-            /** @description User updated successfully */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserResponseDto"];
+                    "application/json": components["schemas"]["GetUserResponse"];
                 };
             };
-            default: {
+            /** @description Validation Error */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
     };
-    AuthController_refresh: {
+    get_user_private_user_private_post: {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
-        responses: {
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GetUserRequest"];
             };
         };
-    };
-    AuthController_logout: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
         responses: {
-            /** @description User logged out successfully */
+            /** @description Successful Response */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["SuccessErrorResponseDto"];
+                    "application/json": components["schemas"]["GetUserResponse"];
                 };
             };
-            default: {
+            /** @description Validation Error */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
     };
-    AuthController_login: {
+    get_me_user_me_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -432,24 +352,18 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description User logged in successfully */
-            201: {
+            /** @description Successful Response */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JwtTokensResponseDto"];
+                    "application/json": components["schemas"]["GetUserResponse"];
                 };
-            };
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
             };
         };
     };
-    AuthController_register: {
+    robots_robots_txt_get: {
         parameters: {
             query?: never;
             header?: never;
@@ -458,20 +372,34 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description User registered successfully */
-            201: {
+            /** @description Successful Response */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["JwtTokensResponseDto"];
+                    "application/json": unknown;
                 };
             };
-            default: {
+        };
+    };
+    read_root__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": unknown;
+                };
             };
         };
     };
@@ -479,15 +407,12 @@ export interface operations {
 
 
 // Individual exports for schemas
-export type CreateUserRequestDto = components['schemas']['CreateUserRequestDto'];
-export type ErrorInfoDto = components['schemas']['ErrorInfoDto'];
-export type UserDataDto = components['schemas']['UserDataDto'];
-export type UserResponseDto = components['schemas']['UserResponseDto'];
-export type UsersResponseDto = components['schemas']['UsersResponseDto'];
-export type Nested3Dto = components['schemas']['Nested3Dto'];
-export type Nested2Dto = components['schemas']['Nested2Dto'];
-export type Nested1Dto = components['schemas']['Nested1Dto'];
-export type UpdateUserRequestDto = components['schemas']['UpdateUserRequestDto'];
-export type SuccessErrorResponseDto = components['schemas']['SuccessErrorResponseDto'];
-export type JwtTokensDto = components['schemas']['JwtTokensDto'];
-export type JwtTokensResponseDto = components['schemas']['JwtTokensResponseDto'];
+export type BaseErrorResponse = components['schemas']['BaseErrorResponse'];
+export type GetUserRequest = components['schemas']['GetUserRequest'];
+export type GetUserResponse = components['schemas']['GetUserResponse'];
+export type HTTPValidationError = components['schemas']['HTTPValidationError'];
+export type LoginRequest = components['schemas']['LoginRequest'];
+export type LoginResponse = components['schemas']['LoginResponse'];
+export type RefreshResponse = components['schemas']['RefreshResponse'];
+export type User = components['schemas']['User'];
+export type ValidationError = components['schemas']['ValidationError'];

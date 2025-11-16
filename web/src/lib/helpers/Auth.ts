@@ -1,13 +1,22 @@
-// import type { LoginResponse } from "../models/Schemas";
-// import { backendApi } from "../models/Base";
+import type { RefreshResponse } from "../models/Schemas";
+import { backendApi } from "../models/Base";
 
 
+
+export function isLoggedIn(): boolean {
+    const accessToken = localStorage.getItem('accessToken');
+    return !!accessToken;
+}
+
+export function logout(): void {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+}
 
 export async function authenticate() {
-    // let authToken = localStorage.getItem('authToken');
-    // let refreshToken = localStorage.getItem('refreshToken');
-    let authToken = '';
-    let refreshToken = '';
+    let authToken = localStorage.getItem('authToken');
+    // let authToken = '';
+    // let refreshToken = '';
 
     if (authToken) {
         return true
@@ -38,17 +47,17 @@ export async function getNewTokens() {
         return false
     }
     try {
-        // const response = await backendApi<null, LoginResponse>('GET', '/ats/auth/refresh_token', refreshToken)
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/latest/ats/auth/refresh_token`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${refreshToken}`
-                }
-            });
+        const response: RefreshResponse | undefined = await backendApi<null, RefreshResponse>('GET', '/auth/refresh', true, null)
+        // const response = await fetch(`${import.meta.env.VITE_API_URL}/latest/ats/auth/refresh_token`,
+        //     {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             "Authorization": `Bearer ${refreshToken}`
+        //         }
+        //     });
 
-        const data = await response.json() as LoginResponse;
+        const data = response as RefreshResponse;
 
         if (data.success) {
             // Store the new access token

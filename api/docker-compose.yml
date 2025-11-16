@@ -1,0 +1,20 @@
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: strongPASS
+      POSTGRES_DB: application
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_USER: root
+      REDIS_PASSWORD: strongPASS
+    command: ["redis-server", "--appendonly", "yes"]

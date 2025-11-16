@@ -13,6 +13,7 @@ import {
 } from '../components/ui/form';
 import { Navbar } from '../components/Navbar';
 import { backendApi } from '../lib/models/Base';
+import { type LoginRequest, type LoginResponse } from '../lib/models/Schemas';
 
 interface LoginFormData {
   email: string;
@@ -36,15 +37,21 @@ export function LoginPage() {
     setErrorMessage('');
 
     try {
-      const response = await backendApi<LoginFormData, any>('POST', '/auth/login', false, data);
+      const response = await backendApi<LoginRequest, LoginResponse>('POST', '/auth/login', false, data);
+      console.log('Login response:', response);
       
-      if (response && response.access_token) {
+      if (response && response.success && response.accessToken && response.refreshToken) {
         // Store tokens
-        localStorage.setItem('accessToken', response.access_token);
-        localStorage.setItem('refreshToken', response.refresh_token);
+        localStorage.setItem('accessToken', response.accessToken);
+        localStorage.setItem('refreshToken', response.refreshToken);
+        
+        // Dispatch event to notify Navbar of login
+        window.dispatchEvent(new Event('auth-change'));
         
         // Redirect to dashboard or home
         navigate('/');
+      } else if (response && response.error) {
+        setErrorMessage(response.error.msg || 'Login failed. Please check your credentials.');
       } else {
         setErrorMessage('Login failed. Please check your credentials.');
       }

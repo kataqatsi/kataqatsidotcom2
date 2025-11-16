@@ -1,4 +1,4 @@
-# Kigri Web App
+# Sinewax Web App
 
 ## Quick Start
 

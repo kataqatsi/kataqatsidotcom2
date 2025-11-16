@@ -1,8 +1,8 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="web/src/assets/images/kigri-logo-pp-black.svg" width="120" alt="Kigri Logo" /></a>
+  <a href="http://nestjs.com/" target="blank"><img src="web/src/assets/images/sinewax-logo-pp-black.svg" width="120" alt="Sinewax Logo" /></a>
 </p>
 
-# Kigri
+# Sinewax
 
 ## Table of Contents
 
