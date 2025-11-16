@@ -13,4 +13,5 @@ class Config:
     fastapi_port: int = int(os.getenv("FASTAPI_PORT", 8000))
     fastapi_workers: int = int(os.getenv("FASTAPI_WORKERS", 1))
     fastapi_key: str = os.getenv("FASTAPI_KEY", "")
+    celery_broker_url: str = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
     json_variable: dict = json.loads(os.getenv("JSON_VARIABLE"))

@@ -8,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import { ThemeToggle } from './theme-toggle';
 import { useTheme } from './theme-provider';
 import { isLoggedIn, logout } from '../lib/helpers/Auth';
 import { SettingsModal } from './SettingsModal';
