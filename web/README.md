@@ -1,4 +1,4 @@
-# Sinewax Web App
+# kataqatsi Web App
 
 ## Quick Start
 
