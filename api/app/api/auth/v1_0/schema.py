@@ -10,11 +10,21 @@ class LoginRequest(CamelModel):
     password: str
 
 
-class LoginResponse(SuccessErrorResponse):
+class TokenResponse(SuccessErrorResponse):
     access_token: Optional[str] = None
     refresh_token: Optional[str] = None
 
 
 class RefreshResponse(SuccessErrorResponse):
     access_token: Optional[str] = None
-    refresh_token: Optional[str] = None 
+    refresh_token: Optional[str] = None
+
+
+class SignupStartRequest(CamelModel):
+    email: str
+
+
+class SignupVerifyRequest(CamelModel):
+    email: str
+    password: str
+    code: str

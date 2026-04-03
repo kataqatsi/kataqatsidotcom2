@@ -21,6 +21,40 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/signup/start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Signup Start */
+        post: operations["signup_start_auth_signup_start_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/signup/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Signup Verify */
+        post: operations["signup_verify_auth_signup_verify_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/refresh": {
         parameters: {
             query?: never;
@@ -141,7 +175,7 @@ export interface components {
          * ErrorCodeEnum
          * @enum {string}
          */
-        ErrorCodeEnum: "item_not_found";
+        ErrorCodeEnum: "item_not_found" | "user_already_exists" | "otp_code_already_sent" | "invalid_otp_code";
         /** GetUserRequest */
         GetUserRequest: {
             /**
@@ -169,8 +203,8 @@ export interface components {
             /** Password */
             password: string;
         };
-        /** LoginResponse */
-        LoginResponse: {
+        /** RefreshResponse */
+        RefreshResponse: {
             /** Success */
             success: boolean;
             error?: components["schemas"]["BaseErrorResponse"] | null;
@@ -179,8 +213,28 @@ export interface components {
             /** Refreshtoken */
             refreshToken?: string | null;
         };
-        /** RefreshResponse */
-        RefreshResponse: {
+        /** SignupStartRequest */
+        SignupStartRequest: {
+            /** Email */
+            email: string;
+        };
+        /** SignupVerifyRequest */
+        SignupVerifyRequest: {
+            /** Email */
+            email: string;
+            /** Password */
+            password: string;
+            /** Code */
+            code: string;
+        };
+        /** SuccessErrorResponse */
+        SuccessErrorResponse: {
+            /** Success */
+            success: boolean;
+            error?: components["schemas"]["BaseErrorResponse"] | null;
+        };
+        /** TokenResponse */
+        TokenResponse: {
             /** Success */
             success: boolean;
             error?: components["schemas"]["BaseErrorResponse"] | null;
@@ -243,7 +297,73 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["LoginResponse"];
+                    "application/json": components["schemas"]["TokenResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    signup_start_auth_signup_start_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignupStartRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessErrorResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    signup_verify_auth_signup_verify_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignupVerifyRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TokenResponse"];
                 };
             };
             /** @description Validation Error */
@@ -412,7 +532,10 @@ export type GetUserRequest = components['schemas']['GetUserRequest'];
 export type GetUserResponse = components['schemas']['GetUserResponse'];
 export type HTTPValidationError = components['schemas']['HTTPValidationError'];
 export type LoginRequest = components['schemas']['LoginRequest'];
-export type LoginResponse = components['schemas']['LoginResponse'];
 export type RefreshResponse = components['schemas']['RefreshResponse'];
+export type SignupStartRequest = components['schemas']['SignupStartRequest'];
+export type SignupVerifyRequest = components['schemas']['SignupVerifyRequest'];
+export type SuccessErrorResponse = components['schemas']['SuccessErrorResponse'];
+export type TokenResponse = components['schemas']['TokenResponse'];
 export type User = components['schemas']['User'];
 export type ValidationError = components['schemas']['ValidationError'];

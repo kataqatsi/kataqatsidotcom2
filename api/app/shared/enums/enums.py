@@ -8,6 +8,9 @@ class RoleEnum(str, Enum):
 
 class ErrorCodeEnum(str, Enum):
     item_not_found = "item_not_found"
+    user_already_exists = "user_already_exists"
+    otp_code_already_sent = "otp_code_already_sent"
+    invalid_otp_code = "invalid_otp_code"
 
 
 class TestEnum(str, Enum):
@@ -17,3 +20,7 @@ class TestEnum(str, Enum):
 
 class AdminPermsEnum(str, Enum):
     test_value = "test_value"
+
+
+class TenantEnum(str, Enum):
+    default = "default"

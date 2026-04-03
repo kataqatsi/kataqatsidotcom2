@@ -15,3 +15,4 @@ class Config:
     fastapi_key: str = os.getenv("FASTAPI_KEY", "")
     celery_broker_url: str = os.getenv("CELERY_BROKER_URL", "redis://localhost:6379/0")
     json_variable: dict = json.loads(os.getenv("JSON_VARIABLE"))
+    resend_api_key: str = os.getenv("RESEND_API_KEY")

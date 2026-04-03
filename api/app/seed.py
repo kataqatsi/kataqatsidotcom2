@@ -99,7 +99,7 @@ def seed_database():
 
         try:
             # Create tenant
-            tenant = user_models.Tenant(id="acme-inc", full_name="Acme Inc")
+            tenant = user_models.Tenant(id="default", full_name="Default Tenant")
             session.add(tenant)
             session.commit()
             logger.info(f"Created tenant: {tenant.full_name}")
