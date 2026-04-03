@@ -1,8 +1,5 @@
-import { Link, NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { isLoggedIn } from '../lib/helpers/Auth';
 import { ThemeToggle } from './theme-toggle';
 import { Twitter, Github, Linkedin } from 'lucide-react';
 
@@ -56,33 +53,10 @@ function ThemeWithSocial() {
 }
 
 export function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setLoggedIn(isLoggedIn());
-
-    const handleStorageChange = () => {
-      setLoggedIn(isLoggedIn());
-    };
-
-    const handleAuthChange = () => {
-      setLoggedIn(isLoggedIn());
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('auth-change', handleAuthChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('auth-change', handleAuthChange);
-    };
-  }, []);
-
   return (
     <nav className="bg-background sticky top-0 z-50 transition-colors duration-300">
       <div className="mx-auto w-full max-w-[672px] px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo + primary nav */}
           <div className="flex shrink-0 items-center gap-6">
             <NavLink
               to="/"
@@ -126,32 +100,7 @@ export function Navbar() {
             </NavLink>
           </div>
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            {!loggedIn && (
-              <>
-                <Link to="/login">
-                  <Button variant="outline" size="sm">
-                    Log In
-                  </Button>
-                </Link>
-                <Link to="/signup">
-                  <Button size="sm">Sign Up</Button>
-                </Link>
-              </>
-            )}
-            <ThemeWithSocial />
-          </div>
-
-          {/* Mobile Actions */}
-          <div className="md:hidden flex items-center space-x-2">
-            {!loggedIn && (
-              <Link to="/login">
-                <Button variant="outline" size="sm">
-                  Log In
-                </Button>
-              </Link>
-            )}
+          <div className="flex items-center">
             <ThemeWithSocial />
           </div>
         </div>

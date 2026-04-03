@@ -4,9 +4,6 @@ import { ContactPage } from './pages/ContactPage';
 import { AboutPage } from './pages/AboutPage';
 import { IdeasPage } from './pages/IdeasPage';
 import { IdeaPostPage } from './pages/IdeaPostPage';
-// import { LoginPage } from './pages/LoginPage';
-// import { SignupPage } from './pages/SignupPage';
-// import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -17,9 +14,6 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/ideas/:issueNumber" element={<IdeaPostPage />} />
         <Route path="/ideas" element={<IdeasPage />} />
-
-        {/* <Route path="/login" element={<LoginPage />} /> */}
-        {/* <Route path="/signup" element={<SignupPage />} /> */}
       </Routes>
     </BrowserRouter>
   );
